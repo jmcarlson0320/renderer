@@ -17,10 +17,6 @@ enum color_comp {
         BLUE
 };
 
-struct vec2 {
-        float e[2];
-};
-
 struct vec3 {
         float e[3];
 };
@@ -47,17 +43,12 @@ struct ray {
         struct vec3 dir;
 };
 
-// vec.c
-struct vec2 vec2(float x, float y);
-void vec2_add(struct vec2 *dest, const struct vec2 *u, const struct vec2 *v);
-void vec2_sub(struct vec2 *dest, const struct vec2 *u, const struct vec3 *v);
-void vec2_mult(struct vec2 *dest, const struct vec2 *v, float s);
-void vec2_div(struct vec2 *dest, const struct vec2 *v, float s);
-float vec2_dot(const struct vec2 *u, const struct vec2 *v);
-float vec2_len_sqr(const struct vec2 *v);
-float vec2_len(const struct vec2 *v);
-void vec2_normalize(struct vec2 *dest, const struct vec2 *v);
+struct sphere {
+        struct vec3 origin;
+        float radius;
+};
 
+// vec.c
 struct vec3 vec3(float x, float y, float z);
 void vec3_add(struct vec3 *dest, const struct vec3 *u, const struct vec3 *v);
 void vec3_sub(struct vec3 *dest, const struct vec3 *u, const struct vec3 *v);

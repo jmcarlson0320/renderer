@@ -1,58 +1,6 @@
 #include "defs.h"
 #include <math.h>
 
-struct vec2 vec2(float x, float y)
-{
-        struct vec2 v = {{x, y}};
-        return v;
-}
-
-void vec2_add(struct vec2 *dest, const struct vec2 *u, const struct vec2 *v)
-{
-        dest->e[0] = u->e[0] + v->e[0];
-        dest->e[1] = u->e[1] + v->e[1];
-}
-
-void vec2_sub(struct vec2 *dest, const struct vec2 *u, const struct vec3 *v)
-{
-        dest->e[0] = u->e[0] - v->e[0];
-        dest->e[1] = u->e[1] - v->e[1];
-}
-
-void vec2_mult(struct vec2 *dest, const struct vec2 *v, float s)
-{
-        dest->e[0] = v->e[0] * s;
-        dest->e[1] = v->e[1] * s;
-}
-
-void vec2_div(struct vec2 *dest, const struct vec2 *v, float s)
-{
-        dest->e[0] = v->e[0] / s;
-        dest->e[1] = v->e[1] / s;
-}
-
-float vec2_dot(const struct vec2 *u, const struct vec2 *v)
-{
-        return u->e[0] * v->e[0] +
-                u->e[1] * v->e[1];
-}
-
-float vec2_len_sqr(const struct vec2 *v)
-{
-        return v->e[0] * v->e[0] +
-                v->e[1] * v->e[1];
-}
-
-float vec2_len(const struct vec2 *v)
-{
-        return sqrt(vec2_len_sqr(v));
-}
-
-void vec2_normalize(struct vec2 *dest, const struct vec2 *v)
-{
-        vec2_div(dest, v, vec2_len(v));
-}
-
 struct vec3 vec3(float x, float y, float z)
 {
         struct vec3 v = {{x, y, z}};
