@@ -7,7 +7,8 @@ $(EXE): main.o utils.o vec.o image.o camera.o
 	$(CC) -o $@ $^ $(LIBS)
 
 run: $(EXE)
-	./image
+	./$(EXE)
+	feh -ZF --force-aliasing out.ppm
 
 main.o: defs.h
 utils.o: defs.h

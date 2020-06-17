@@ -5,29 +5,26 @@ Date: 4/24/2020
 A very basic unit testing framework.
 
 To use:
-1.  Create a *.c file that includes this header. Inside that file:
-2.  Write unit tests with the function signature "int test(void)" that
-    return PASS or FAIL.
-3.  Define the TESTS array to contain the unit test names and function
-    pointers and ends with a NULL struct:
+1. Create a *.c file that includes this header. Inside that file:
+2. Write unit tests with the function signature "int test(void)" that
+   return PASS or FAIL.
+3. Define the TESTS array to contain the unit test names and function
+   pointers and ends with a NULL struct:
 
-    TESTS = {
+TESTS = {
         {"name of test 1", test_function_1},
         {"name of test 1", test_function_1},
         {"name of test 1", test_function_1},
-        .
-        .
-        .
         {0}
-    };
+};
 
 4.  Compile the *.c file as normal:
 
-    $ gcc -o run_tests my_unit_tests.c
+        $ gcc -o run_tests my_unit_tests.c
 
 5.  Run the tests:
 
-    $ ./run_tests
+        $ ./run_tests
 
  *****************************************************************************/
 #ifndef UNIT_TESTS_H

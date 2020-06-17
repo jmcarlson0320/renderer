@@ -6,45 +6,45 @@
 #define ERROR -1
 
 enum axis {
-	X_COOR,
-	Y_COOR,
-	Z_COOR
+        X_COOR,
+        Y_COOR,
+        Z_COOR
 };
 
 enum color_comp {
-	RED,
-	GREEN,
-	BLUE
+        RED,
+        GREEN,
+        BLUE
 };
 
 struct vec2 {
-	float e[2];
+        float e[2];
 };
 
 struct vec3 {
-	float e[3];
+        float e[3];
 };
 
 // aliases
 typedef struct vec3 color;
 
 struct image {
-	int width;
-	int height;
-	color *pixels;
+        int width;
+        int height;
+        color *pixels;
 };
 
 struct camera {
-	struct vec3 u;
-	struct vec3 v;
-	struct vec3 w;
-	struct vec3 pos;
-	float focal_length;
+        struct vec3 u;
+        struct vec3 v;
+        struct vec3 w;
+        struct vec3 pos;
+        float focal_length;
 };
 
 struct ray {
-	struct vec3 origin;
-	struct vec3 dir;
+        struct vec3 origin;
+        struct vec3 dir;
 };
 
 // vec.c
