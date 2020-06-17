@@ -1,13 +1,17 @@
 #include "defs.h"
+#include <stdlib.h>
 
 struct camera *camera_create(struct vec3 position, float focal_length)
 {
 	struct camera *cam = malloc(sizeof(struct camera));
+
 	cam->pos = position;
 	cam->focal_length = focal_length;
 	cam->u = vec3(1.0f, 0.0f, 0.0f);
 	cam->v = vec3(0.0f, 1.0f, 0.0f);
 	cam->w = vec3(0.0f, 0.0f, 1.0f);
+
+        return cam;
 }
 
 void camera_destroy(struct camera *cam)

@@ -83,7 +83,7 @@ int image_set_pixel(struct image *img, int x, int y, color c);
 void image_write_ppm(char *filename, const struct image *img);
 
 //camera.c
-struct camera *camera_create(struct vec3 position, struct vec3 dir, float focal_length);
+struct camera *camera_create(struct vec3 position, float focal_length);
 void camera_destroy(struct camera *cam);
 void camera_look_at(struct camera *cam, struct vec3 target);
 

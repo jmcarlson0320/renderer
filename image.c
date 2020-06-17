@@ -5,9 +5,11 @@
 struct image *image_create(int width, int height)
 {
 	struct image *img = malloc(sizeof(struct image));
+
 	img->width = width;
 	img->height = height;
 	img->pixels = malloc(width * height * sizeof(color));
+
 	return img;
 }
 
