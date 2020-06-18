@@ -34,19 +34,24 @@ int main()
 
 color compute_ray_color(struct ray *r)
 {
+        struct sphere sphere = {vec3(0.0f, 0.0f, -2.0f), 1.0f};
         color white = vec3(1.0f, 1.0f, 1.0f);
         color blue = vec3(0.1f, 0.5f, 0.7f);
         color ray_color;
 
-        struct vec3 normalized;
-        vec3_normalize(&normalized, &r->dir);
+        if (ray_sphere_intersection(r, &sphere)) {
+                ray_color = vec3(1.0f, 0.0f, 0.0f);
+        } else {
+                struct vec3 normalized;
+                vec3_normalize(&normalized, &r->dir);
 
-        float t = normalized.e[Y_COOR];
-        t = norm(t, -1.0f, 1.0f);
+                float t = normalized.e[Y_COOR];
+                t = norm(t, -1.0f, 1.0f);
 
-        vec3_mult(&blue, &blue, t);
-        vec3_mult(&white, &white, (1.0f - t));
-        vec3_add(&ray_color, &blue, &white);
+                vec3_mult(&blue, &blue, t);
+                vec3_mult(&white, &white, (1.0f - t));
+                vec3_add(&ray_color, &blue, &white);
+        }
 
         return ray_color;
 }

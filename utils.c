@@ -54,3 +54,8 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
 
         return result;
 }
+
+int ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere)
+{
+        return 0;
+}
