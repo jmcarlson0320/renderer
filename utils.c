@@ -26,7 +26,7 @@ void write_color(FILE *fs, color c)
         fprintf(fs, "%d\t%d\t%d\n", ir, ig, ib);
 }
 
-struct ray ray_to_pixel(struct camera *cam, struct image *img, int i, int j)
+struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j)
 {
         float aspect_ratio = (float) img->width / (float) img->height;
         float l = -1.0 * aspect_ratio;
