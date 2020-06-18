@@ -38,6 +38,12 @@ struct camera {
         float focal_length;
 };
 
+struct hit_record {
+	struct vec3 hit_point;
+	struct vec3 normal;
+	float t;
+};
+
 struct ray {
         struct vec3 origin;
         struct vec3 dir;
@@ -66,7 +72,8 @@ float norm(float value, float min, float max);
 float map(float value, float srcMin, float srcMax, float destMin, float destMax);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
-int ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere);
+float ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere);
+struct vec3 ray_at(const struct ray *ray, float t);
 
 // image.c
 struct image *image_create(int width, int height);

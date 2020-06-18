@@ -1,5 +1,6 @@
 #include "defs.h"
 #include <stdio.h>
+#include <math.h>
 
 float lerp(float norm, float min, float max)
 {
@@ -55,7 +56,37 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
         return result;
 }
 
-int ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere)
+float ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere)
 {
-        return 0;
+	float a;
+	float b;
+	float c;
+	float discriminant;
+
+	a = vec3_len_sqr(&ray->dir);
+
+	struct vec3 tmp;
+	vec3_sub(&tmp, &ray->origin, &sphere->origin);
+	b = (2.0f) * vec3_dot(&ray->dir, &tmp);
+
+	c = vec3_len_sqr(&tmp) - (sphere->radius * sphere->radius);
+
+	discriminant = b * b - 4.0f * a * c;
+
+	if (discriminant < 0) {
+		return -1.0f;
+	} else {
+		return (-b - sqrt(discriminant)) / (2.0f * a);
+	}
+
+}
+
+struct vec3 ray_at(const struct ray *ray, float t)
+{
+	// P(t) = A + bt
+	struct vec3 point;
+	vec3_mult(&point, &ray->dir, t);
+	vec3_add(&point, &point, &ray->origin);
+
+	return point;
 }
