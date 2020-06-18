@@ -8,7 +8,7 @@ $(EXE): main.o utils.o vec.o image.o camera.o
 
 run: $(EXE)
 	./$(EXE)
-	feh --force-aliasing out.ppm
+	feh -ZF --force-aliasing out.ppm
 
 main.o: defs.h
 utils.o: defs.h

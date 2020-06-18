@@ -39,27 +39,23 @@ color compute_ray_color(struct ray *r)
         color blue = vec3(0.5f, 0.7f, 1.0f);
         color ray_color;
 
-	float t = ray_sphere_intersection(r, &sphere, 0, 0, NULL);
-	if (t >= 0) {
-		struct vec3 normal;
-		struct vec3 hit_point = ray_at(r, t);
-		vec3_sub(&normal, &hit_point, &sphere.origin);
-		vec3_normalize(&normal, &normal);
-		ray_color = vec3(normal.e[RED] + 1.0f,
-				 normal.e[GREEN] + 1.0f,
-				 normal.e[BLUE] + 1.0f);
-		vec3_mult(&ray_color, &ray_color, 0.5f);
-	} else {
-		struct vec3 normalized;
-		vec3_normalize(&normalized, &r->dir);
+        struct hit_record hit;
+        if (ray_sphere_intersection(r, &sphere, 0.0f, INFINITY, &hit)) {
+                ray_color = vec3(hit.normal.e[RED] + 1.0f,
+                                 hit.normal.e[GREEN] + 1.0f,
+                                 hit.normal.e[BLUE] + 1.0f);
+                vec3_mult(&ray_color, &ray_color, 0.5f);
+        } else {
+                struct vec3 normalized;
+                vec3_normalize(&normalized, &r->dir);
 
-		float amt = normalized.e[Y_COOR];
-		amt = norm(amt, -1.0f, 1.0f);
+                float amt = normalized.e[Y_COOR];
+                amt = norm(amt, -1.0f, 1.0f);
 
-		vec3_mult(&blue, &blue, amt);
-		vec3_mult(&white, &white, (1.0f - amt));
-		vec3_add(&ray_color, &blue, &white);
-	}
+                vec3_mult(&blue, &blue, amt);
+                vec3_mult(&white, &white, (1.0f - amt));
+                vec3_add(&ray_color, &blue, &white);
+        }
 
         return ray_color;
 }

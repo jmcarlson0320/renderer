@@ -18,6 +18,11 @@ float map(float value, float srcMin, float srcMax, float destMin, float destMax)
         return lerp(n, destMin, destMax);
 }
 
+int in_range_inclusive(float x, float min, float max)
+{
+        return min <= x && x <= max;
+}
+
 void write_color(FILE *fs, color c)
 {
         int ir = (int) map(c.e[RED], 0.0f, 1.0f, 0.0f, 255.0f);
@@ -57,38 +62,52 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
 }
 
 int ray_sphere_intersection(const struct ray *ray,
-		            const struct sphere *sphere,
-		            float t_0, float t_1,
-		            struct hit_record *record)
+                const struct sphere *sphere,
+                float t_0, float t_1,
+                struct hit_record *record)
 {
-	float a;
-	float b;
-	float c;
-	float discriminant;
+        float a;
+        float b;
+        float c;
+        float discriminant;
 
-	a = vec3_len_sqr(&ray->dir);
+        struct vec3 tmp;
+        vec3_sub(&tmp, &ray->origin, &sphere->origin);
 
-	struct vec3 tmp;
-	vec3_sub(&tmp, &ray->origin, &sphere->origin);
-	b = (2.0f) * vec3_dot(&ray->dir, &tmp);
+        a = vec3_len_sqr(&ray->dir);
+        b = (2.0f) * vec3_dot(&ray->dir, &tmp);
+        c = vec3_len_sqr(&tmp) - (sphere->radius * sphere->radius);
 
-	c = vec3_len_sqr(&tmp) - (sphere->radius * sphere->radius);
+        discriminant = b * b - 4.0f * a * c;
 
-	discriminant = b * b - 4.0f * a * c;
+        if (discriminant < 0)
+                return FALSE;
 
-	if (discriminant < 0) {
-		return -1.0f;
-	} else {
-		return (-b - sqrt(discriminant)) / (2.0f * a);
-	}
+        float t = (-b - sqrt(discriminant)) / (2.0f * a);
+        if (!in_range_inclusive(t, t_0, t_1))
+                return FALSE;
+
+        record->t = t;
+        record->hit_point = ray_at(ray, t);
+        vec3_sub(&record->normal, &record->hit_point, &sphere->origin);
+        vec3_normalize(&record->normal, &record->normal);
+
+        if (vec3_dot(&record->normal, &ray->dir) > 0) {
+                vec3_mult(&record->normal, &record->normal, -1.0f);
+                record->front_face = FALSE;
+        } else {
+                record->front_face = TRUE;
+        }
+
+        return TRUE;
 }
 
 struct vec3 ray_at(const struct ray *ray, float t)
 {
-	// P(t) = A + bt
-	struct vec3 point;
-	vec3_mult(&point, &ray->dir, t);
-	vec3_add(&point, &point, &ray->origin);
+        // P(t) = A + bt
+        struct vec3 point;
+        vec3_mult(&point, &ray->dir, t);
+        vec3_add(&point, &point, &ray->origin);
 
-	return point;
+        return point;
 }
