@@ -56,7 +56,10 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
         return result;
 }
 
-float ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere)
+int ray_sphere_intersection(const struct ray *ray,
+		            const struct sphere *sphere,
+		            float t_0, float t_1,
+		            struct hit_record *record)
 {
 	float a;
 	float b;
@@ -78,7 +81,6 @@ float ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere
 	} else {
 		return (-b - sqrt(discriminant)) / (2.0f * a);
 	}
-
 }
 
 struct vec3 ray_at(const struct ray *ray, float t)

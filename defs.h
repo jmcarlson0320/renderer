@@ -72,7 +72,10 @@ float norm(float value, float min, float max);
 float map(float value, float srcMin, float srcMax, float destMin, float destMax);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
-float ray_sphere_intersection(const struct ray *ray, const struct sphere *sphere);
+int ray_sphere_intersection(const struct ray *ray,
+		            const struct sphere *sphere,
+		            float t_0, float t_1,
+		            struct hit_record *record);
 struct vec3 ray_at(const struct ray *ray, float t);
 
 // image.c

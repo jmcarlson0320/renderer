@@ -39,7 +39,7 @@ color compute_ray_color(struct ray *r)
         color blue = vec3(0.5f, 0.7f, 1.0f);
         color ray_color;
 
-	float t = ray_sphere_intersection(r, &sphere);
+	float t = ray_sphere_intersection(r, &sphere, 0, 0, NULL);
 	if (t >= 0) {
 		struct vec3 normal;
 		struct vec3 hit_point = ray_at(r, t);
