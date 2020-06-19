@@ -6,6 +6,9 @@
 #define ASPECT_RATIO (16.0f / 9.0f)
 #define IMAGE_HEIGHT 216
 #define IMAGE_WIDTH (int) (IMAGE_HEIGHT * ASPECT_RATIO)
+#define ANTI_ALIASING TRUE
+#define AA_ON 1
+#define AA_OFF 0
 #define NUM_SAMPLES 100
 
 color compute_ray_color(struct ray *r, struct hittable_list *world);
@@ -24,12 +27,17 @@ int main()
                 fprintf(stderr, "\rscanlines remaining: %d    ", j);
                 for (int i = 0; i < img->width; i++) {
                         color accumulator = vec3(0.0f, 0.0f, 0.0f);
-                        for (int k = 0; k < NUM_SAMPLES; k++) {
-                                struct ray r = ray_to_pixel(cam, img, i, j);
-                                color c = compute_ray_color(&r, world);
-                                vec3_add(&accumulator, &accumulator, &c);
+                        if (ANTI_ALIASING) {
+                                for (int k = 0; k < NUM_SAMPLES; k++) {
+                                        struct ray r = ray_to_pixel(cam, img, i, j, AA_ON);
+                                        color c = compute_ray_color(&r, world);
+                                        vec3_add(&accumulator, &accumulator, &c);
+                                }
+                                vec3_div(&accumulator, &accumulator, NUM_SAMPLES);
+                        } else {
+                                struct ray r = ray_to_pixel(cam, img, i, j, AA_OFF);
+                                accumulator = compute_ray_color(&r, world);
                         }
-                        vec3_div(&accumulator, &accumulator, NUM_SAMPLES);
                         image_set_pixel(img, i, j, accumulator);
                 }
         }

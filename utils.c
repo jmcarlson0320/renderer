@@ -48,16 +48,23 @@ struct vec3 ray_at(const struct ray *ray, float t)
         return point;
 }
 
-struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j)
+struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j, int RANDOMIZE)
 {
         float aspect_ratio = (float) img->width / (float) img->height;
         float l = -1.0 * aspect_ratio;
         float r = aspect_ratio;
         float t = 1.0f;
         float b = -1.0f;
+        float u;
+        float v;
 
-        float u = l + (r - l) * ((float) i + rand_float()) / img->width;
-        float v = b + (t - b) * ((float) j + rand_float()) / img->height;
+        if (RANDOMIZE) {
+                u = l + (r - l) * ((float) i + rand_float()) / img->width;
+                v = b + (t - b) * ((float) j + rand_float()) / img->height;
+        } else {
+                u = l + (r - l) * ((float) i + 0.5f) / img->width;
+                v = b + (t - b) * ((float) j + 0.5f) / img->height;
+        }
 
         //ray direction: -dW + uU + vV
         struct vec3 dir;
