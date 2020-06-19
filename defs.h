@@ -45,17 +45,22 @@ struct ray {
         struct vec3 dir;
 };
 
-// this is an implementation of polymorphism
-// see home/jmc/programming/vtable_in_c/my_attempt/ for another example
-struct hittable {
-        const struct vtable *vtable;
-};
-
 struct hit_record {
 	struct vec3 hit_point;
 	struct vec3 normal;
 	float t;
         int front_face;
+};
+
+// this is an implementation of polymorphism
+// see home/jmc/programming/vtable_in_c/my_attempt/ for another example
+// hittable is the "base class", derived class structs need to have
+// a hittable struct as their first member.
+// when creating a derived class instance, load the vtable pointer with
+// a pointer to the derived class's static vtable that has pointers to the
+// derived class's implementation.
+struct hittable {
+        const struct vtable *vtable;
 };
 
 struct vtable {
