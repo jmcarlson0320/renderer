@@ -97,6 +97,7 @@ float lerp(float norm, float min, float max);
 float norm(float value, float min, float max);
 float map(float value, float srcMin, float srcMax, float destMin, float destMax);
 int in_range_inclusive(float x, float min, float max);
+float rand_float();
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
 struct vec3 ray_at(const struct ray *ray, float t);
