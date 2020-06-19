@@ -3,7 +3,7 @@ CFLAGS = -g -Wall
 LIBS = -lm
 EXE = render
 
-$(EXE): main.o utils.o vec.o image.o camera.o
+$(EXE): main.o utils.o vec.o image.o camera.o sphere.o
 	$(CC) -o $@ $^ $(LIBS)
 
 run: $(EXE)
@@ -15,6 +15,7 @@ utils.o: defs.h
 vec.o: defs.h
 image.o: defs.h
 camera.o: defs.h
+sphere.o: defs.h
 
 clean:
 	rm *.o *.ppm $(EXE)

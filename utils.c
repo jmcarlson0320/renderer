@@ -61,47 +61,6 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
         return result;
 }
 
-int ray_sphere_intersection(const struct ray *ray,
-                const struct sphere *sphere,
-                float t_0, float t_1,
-                struct hit_record *record)
-{
-        float a;
-        float b;
-        float c;
-        float discriminant;
-
-        struct vec3 tmp;
-        vec3_sub(&tmp, &ray->origin, &sphere->origin);
-
-        a = vec3_len_sqr(&ray->dir);
-        b = (2.0f) * vec3_dot(&ray->dir, &tmp);
-        c = vec3_len_sqr(&tmp) - (sphere->radius * sphere->radius);
-
-        discriminant = b * b - 4.0f * a * c;
-
-        if (discriminant < 0)
-                return FALSE;
-
-        float t = (-b - sqrt(discriminant)) / (2.0f * a);
-        if (!in_range_inclusive(t, t_0, t_1))
-                return FALSE;
-
-        record->t = t;
-        record->hit_point = ray_at(ray, t);
-        vec3_sub(&record->normal, &record->hit_point, &sphere->origin);
-        vec3_normalize(&record->normal, &record->normal);
-
-        if (vec3_dot(&record->normal, &ray->dir) > 0) {
-                vec3_mult(&record->normal, &record->normal, -1.0f);
-                record->front_face = FALSE;
-        } else {
-                record->front_face = TRUE;
-        }
-
-        return TRUE;
-}
-
 struct vec3 ray_at(const struct ray *ray, float t)
 {
         // P(t) = A + bt
@@ -110,4 +69,9 @@ struct vec3 ray_at(const struct ray *ray, float t)
         vec3_add(&point, &point, &ray->origin);
 
         return point;
+}
+
+int hittable_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record)
+{
+        return (hittable->vtable->hit)(hittable, ray, t_0, t_1, record);
 }

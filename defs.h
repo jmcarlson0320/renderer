@@ -40,6 +40,17 @@ struct camera {
         float focal_length;
 };
 
+struct ray {
+        struct vec3 origin;
+        struct vec3 dir;
+};
+
+// this is an implementation of polymorphism
+// see home/jmc/programming/vtable_in_c/my_attempt/ for another example
+struct hittable {
+        const struct vtable *vtable;
+};
+
 struct hit_record {
 	struct vec3 hit_point;
 	struct vec3 normal;
@@ -47,12 +58,12 @@ struct hit_record {
         int front_face;
 };
 
-struct ray {
-        struct vec3 origin;
-        struct vec3 dir;
+struct vtable {
+        int (*hit)(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 };
 
 struct sphere {
+        struct hittable hittable;
         struct vec3 origin;
         float radius;
 };
@@ -76,11 +87,8 @@ float map(float value, float srcMin, float srcMax, float destMin, float destMax)
 int in_range_inclusive(float x, float min, float max);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
-int ray_sphere_intersection(const struct ray *ray,
-		            const struct sphere *sphere,
-		            float t_0, float t_1,
-		            struct hit_record *record);
 struct vec3 ray_at(const struct ray *ray, float t);
+int hittable_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 // image.c
 struct image *image_create(int width, int height);
@@ -88,9 +96,13 @@ void image_destroy(struct image *img);
 int image_set_pixel(struct image *img, int x, int y, color c);
 void image_write_ppm(char *filename, const struct image *img);
 
-//camera.c
+// camera.c
 struct camera *camera_create(struct vec3 position, float focal_length);
 void camera_destroy(struct camera *cam);
 void camera_look_at(struct camera *cam, struct vec3 target);
+
+// sphere.c
+struct sphere *sphere_create(struct vec3 pos, float radius);
+int sphere_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 #endif // DEFS_H
