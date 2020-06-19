@@ -35,12 +35,12 @@ int main()
 color compute_ray_color(struct ray *r)
 {
         struct sphere *sphere = sphere_create(vec3(0.0f, 0.0f, -2.0f), 1.0f);
-        struct hittable *hittable_ptr = (struct hittable *) sphere;
         color white = vec3(1.0f, 1.0f, 1.0f);
         color blue = vec3(0.5f, 0.7f, 1.0f);
         color ray_color;
 
         struct hit_record hit;
+        struct hittable *hittable_ptr = (struct hittable *) sphere;
         if (hittable_hit(hittable_ptr, r, 0.0f, INFINITY, &hit)) {
                 ray_color = vec3(hit.normal.e[RED] + 1.0f,
                                  hit.normal.e[GREEN] + 1.0f,
@@ -57,6 +57,8 @@ color compute_ray_color(struct ray *r)
                 vec3_mult(&white, &white, (1.0f - amt));
                 vec3_add(&ray_color, &blue, &white);
         }
+
+        sphere_destroy(sphere);
 
         return ray_color;
 }

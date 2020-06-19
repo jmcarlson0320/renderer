@@ -1,0 +1,7 @@
+RENDERER PROJECT
+TODO:
+
+7.	hittable list w/ function
+8.	lambertian shading model
+9.	phong shading model
+10.	shadows

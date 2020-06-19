@@ -44,4 +44,5 @@ void image_write_ppm(char *filename, const struct image *img)
                         write_color(fs, c);
                 }
         }
+        fclose(fs);
 }

@@ -32,6 +32,16 @@ void write_color(FILE *fs, color c)
         fprintf(fs, "%d\t%d\t%d\n", ir, ig, ib);
 }
 
+struct vec3 ray_at(const struct ray *ray, float t)
+{
+        // P(t) = A + bt
+        struct vec3 point;
+        vec3_mult(&point, &ray->dir, t);
+        vec3_add(&point, &point, &ray->origin);
+
+        return point;
+}
+
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j)
 {
         float aspect_ratio = (float) img->width / (float) img->height;
@@ -61,17 +71,7 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
         return result;
 }
 
-struct vec3 ray_at(const struct ray *ray, float t)
-{
-        // P(t) = A + bt
-        struct vec3 point;
-        vec3_mult(&point, &ray->dir, t);
-        vec3_add(&point, &point, &ray->origin);
-
-        return point;
-}
-
-int hittable_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record)
+int hittable_hit(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record)
 {
         return (hittable->vtable->hit)(hittable, ray, t_0, t_1, record);
 }

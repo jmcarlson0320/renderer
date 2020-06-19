@@ -64,7 +64,7 @@ struct hittable {
 };
 
 struct vtable {
-        int (*hit)(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
+        int (*hit)(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 };
 
 struct sphere {
@@ -93,7 +93,7 @@ int in_range_inclusive(float x, float min, float max);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
 struct vec3 ray_at(const struct ray *ray, float t);
-int hittable_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
+int hittable_hit(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 // image.c
 struct image *image_create(int width, int height);
@@ -108,6 +108,6 @@ void camera_look_at(struct camera *cam, struct vec3 target);
 
 // sphere.c
 struct sphere *sphere_create(struct vec3 pos, float radius);
-int sphere_hit(struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
+void sphere_destroy(struct sphere *sphere);
 
 #endif // DEFS_H
