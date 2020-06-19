@@ -56,16 +56,22 @@ int main()
 
 color compute_ray_color(struct ray *r, struct hittable_list *world)
 {
-        color white = vec3(1.0f, 1.0f, 1.0f);
-        color blue = vec3(0.5f, 0.7f, 1.0f);
         color ray_color;
-
         struct hit_record hit;
-        if (hittable_list_hit(world, r, 0.0f, INFINITY, &hit)) {
-                ray_color.e[RED] = 0.5f * (hit.normal.e[RED] + 1.0f);
-                ray_color.e[GREEN] = 0.5f * (hit.normal.e[GREEN] + 1.0f);
-                ray_color.e[BLUE] = 0.5f * (hit.normal.e[BLUE] + 1.0f);
+
+        if (hittable_list_hit(world, r, 0.001f, INFINITY, &hit)) {
+                struct vec3 target;
+                struct vec3 random_point = rand_in_unit_sphere();
+                vec3_add(&target, &hit.hit_point, &hit.normal);
+                vec3_add(&target, &target, &random_point);
+                struct ray new_ray = {hit.hit_point, target};
+                ray_color = compute_ray_color(&new_ray, world);
+                vec3_mult(&ray_color, &ray_color, 0.5f);
+                return ray_color;
         } else {
+                color white = vec3(1.0f, 1.0f, 1.0f);
+                color blue = vec3(0.5f, 0.7f, 1.0f);
+
                 struct vec3 normalized;
                 vec3_normalize(&normalized, &r->dir);
 

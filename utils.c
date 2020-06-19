@@ -29,6 +29,19 @@ float rand_float()
         return (float) rand() / (float) (RAND_MAX);
 }
 
+struct vec3 rand_in_unit_sphere()
+{
+        struct vec3 point;
+
+        do {
+                point.e[X_COOR] =  2.0f * rand_float() - 1.0f;
+                point.e[Y_COOR] =  2.0f * rand_float() - 1.0f;
+                point.e[Z_COOR] =  2.0f * rand_float() - 1.0f;
+        } while (vec3_len_sqr(&point) >= 1.0f);
+
+        return point;
+}
+
 void write_color(FILE *fs, color c)
 {
         int ir = (int) map(c.e[RED], 0.0f, 1.0f, 0.0f, 255.0f);
