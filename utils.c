@@ -70,8 +70,3 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
 
         return result;
 }
-
-int hittable_hit(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record)
-{
-        return (hittable->vtable->hit)(hittable, ray, t_0, t_1, record);
-}

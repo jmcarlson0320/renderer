@@ -61,10 +61,17 @@ struct hit_record {
 // derived class's implementation.
 struct hittable {
         const struct vtable *vtable;
+        int id;
+        struct hittable *next;
 };
 
 struct vtable {
-        int (*hit)(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
+        int (*hit)(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
+};
+
+struct hittable_list {
+        struct hittable *head;
+        int num_elements;
 };
 
 struct sphere {
@@ -93,7 +100,6 @@ int in_range_inclusive(float x, float min, float max);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
 struct vec3 ray_at(const struct ray *ray, float t);
-int hittable_hit(const struct hittable *hittable, struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 // image.c
 struct image *image_create(int width, int height);
@@ -109,5 +115,13 @@ void camera_look_at(struct camera *cam, struct vec3 target);
 // sphere.c
 struct sphere *sphere_create(struct vec3 pos, float radius);
 void sphere_destroy(struct sphere *sphere);
+
+// hittable.c
+int hittable_hit(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
+struct hittable_list *hittable_list_create();
+void hittable_list_destroy(struct hittable_list *list);
+int hittable_list_add(struct hittable_list *list, struct hittable *element);
+int hittable_list_remove(struct hittable_list *list, struct hittable *element);
+int hittable_list_hit(const struct hittable_list *list, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 #endif // DEFS_H
