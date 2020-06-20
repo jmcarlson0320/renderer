@@ -31,6 +31,7 @@ int sphere_hit(const struct hittable *hittable, const struct ray *ray, float t_0
         record->hit_point = ray_at(ray, t);
         vec3_sub(&record->normal, &record->hit_point, &sphere->origin);
         vec3_normalize(&record->normal, &record->normal);
+        record->surface_color = sphere->surface_color;
 
         if (vec3_dot(&record->normal, &ray->dir) > 0) {
                 vec3_mult(&record->normal, &record->normal, -1.0f);
@@ -46,12 +47,13 @@ static const struct vtable sphere_vtable = {
         sphere_hit
 };
 
-struct sphere *sphere_create(struct vec3 pos, float radius)
+struct sphere *sphere_create(struct vec3 pos, float radius, color surface_color)
 {
         struct sphere *sphere = malloc(sizeof(struct sphere));
         sphere->hittable.vtable = &sphere_vtable;
         sphere->origin = pos;
         sphere->radius = radius;
+        sphere->surface_color = surface_color;
 
         return sphere;
 }

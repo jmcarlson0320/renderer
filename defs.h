@@ -48,6 +48,7 @@ struct ray {
 struct hit_record {
 	struct vec3 hit_point;
 	struct vec3 normal;
+        color surface_color;
 	float t;
         int front_face;
 };
@@ -78,6 +79,7 @@ struct sphere {
         struct hittable hittable;
         struct vec3 origin;
         float radius;
+        color surface_color;
 };
 
 // vec.c
@@ -98,6 +100,7 @@ float norm(float value, float min, float max);
 float map(float value, float srcMin, float srcMax, float destMin, float destMax);
 int in_range_inclusive(float x, float min, float max);
 float rand_float();
+float max(float a, float b);
 void write_color(FILE *fs, color c);
 struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
 struct vec3 ray_at(const struct ray *ray, float t);
@@ -114,7 +117,7 @@ void camera_destroy(struct camera *cam);
 void camera_look_at(struct camera *cam, struct vec3 target);
 
 // sphere.c
-struct sphere *sphere_create(struct vec3 pos, float radius);
+struct sphere *sphere_create(struct vec3 pos, float radius, color surface_color);
 void sphere_destroy(struct sphere *sphere);
 
 // hittable.c
