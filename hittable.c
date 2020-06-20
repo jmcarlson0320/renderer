@@ -1,7 +1,9 @@
 #include "defs.h"
 #include <stdlib.h>
 
-int hittable_hit(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record)
+int hittable_hit(const struct hittable *hittable, const struct ray *ray,
+                 float t_0, float t_1,
+                 struct hit_record *record)
 {
         return (hittable->vtable->hit)(hittable, ray, t_0, t_1, record);
 }
@@ -53,7 +55,9 @@ int hittable_list_remove(struct hittable_list *list, struct hittable *element)
         return found;
 }
 
-int hittable_list_hit(const struct hittable_list *list, const struct ray *ray, float t_0, float t_1, struct hit_record *record)
+int hittable_list_hit(const struct hittable_list *list, const struct ray *ray,
+                      float t_0, float t_1,
+                      struct hit_record *record)
 {
         int hit = FALSE;
         struct hittable *cur = list->head;

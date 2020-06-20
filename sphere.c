@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <math.h>
 
-int sphere_hit(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record)
+int sphere_hit(const struct hittable *hittable, const struct ray *ray,
+               float t_0, float t_1,
+               struct hit_record *record)
 {
         float a;
         float b;
@@ -47,7 +49,8 @@ static const struct vtable sphere_vtable = {
         sphere_hit
 };
 
-struct sphere *sphere_create(struct vec3 pos, float radius, color surface_color)
+struct sphere *sphere_create(struct vec3 pos, float radius,
+                             color surface_color)
 {
         struct sphere *sphere = malloc(sizeof(struct sphere));
         sphere->hittable.vtable = &sphere_vtable;

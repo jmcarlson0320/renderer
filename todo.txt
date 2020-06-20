@@ -1,7 +1,6 @@
 RENDERER PROJECT
 TODO:
 
-7.	hittable list w/ function
-8.	lambertian shading model
-9.	phong shading model
-10.	shadows
+1. make hittable_list a "hittable"
+2. encapsulate lambertian shading model
+3. light struct
