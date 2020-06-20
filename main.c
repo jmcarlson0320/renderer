@@ -16,12 +16,16 @@ color compute_ray_color(struct ray *r, struct hittable_list *world);
 int main()
 {
         struct image *img = image_create(IMAGE_WIDTH, IMAGE_HEIGHT);
-        struct camera *cam = camera_create(vec3(0.0f, 0.0f, 0.0f), 1.0f);
+        struct camera *cam = camera_create(vec3(0.0f, 0.0f, 1.0f), 1.0f);
         struct hittable_list *world = hittable_list_create();
         struct sphere *obj1 = sphere_create(vec3(0.0f, 0.0f, -1.0f), 0.5f);
-        struct sphere *obj2 = sphere_create(vec3(0.0f, -100.5f, -1.0f), 100.0f);
+        struct sphere *obj2 = sphere_create(vec3(-1.0f, 0.0f, -0.9f), 0.5f);
+        struct sphere *obj3 = sphere_create(vec3(1.0f, 0.0f, -1.1f), 0.5f);
+        struct sphere *obj4 = sphere_create(vec3(0.0f, -100.5f, -1.0f), 100.0f);
         hittable_list_add(world, (struct hittable *) obj1);
         hittable_list_add(world, (struct hittable *) obj2);
+        hittable_list_add(world, (struct hittable *) obj3);
+        hittable_list_add(world, (struct hittable *) obj4);
 
         for (int j = img->height - 1; j >= 0; j--) {
                 fprintf(stderr, "\rscanlines remaining: %d    ", j);
@@ -66,11 +70,11 @@ color compute_ray_color(struct ray *r, struct hittable_list *world)
                 vec3_add(&target, &target, &random_point);
                 struct ray new_ray = {hit.hit_point, target};
                 ray_color = compute_ray_color(&new_ray, world);
-                vec3_mult(&ray_color, &ray_color, 0.5f);
+                vec3_mult(&ray_color, &ray_color, 0.7f);
                 return ray_color;
         } else {
                 color white = vec3(1.0f, 1.0f, 1.0f);
-                color blue = vec3(0.5f, 0.7f, 1.0f);
+                color blue = vec3(0.7f, 0.8f, 1.0f);
 
                 struct vec3 normalized;
                 vec3_normalize(&normalized, &r->dir);
