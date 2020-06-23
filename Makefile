@@ -1,16 +1,13 @@
 CC = gcc
 CFLAGS = -g -Wall
-LIBS = -lm
+LIBS = -lm -lSDL2
 EXE = render
 
-$(EXE): main.o utils.o vec.o image.o camera.o sphere.o hittable.o
+$(EXE): main.o renderer.o utils.o vec.o image.o camera.o sphere.o hittable.o
 	$(CC) -o $@ $^ $(LIBS)
 
-run: $(EXE)
-	./$(EXE)
-	feh -ZF --force-aliasing out.ppm
-
 main.o: defs.h
+renderer.o: defs.h
 utils.o: defs.h
 vec.o: defs.h
 image.o: defs.h
@@ -19,6 +16,6 @@ sphere.o: defs.h
 hittable.o: defs.h
 
 clean:
-	rm *.o *.ppm $(EXE)
+	rm *.o $(EXE)
 
-.PHONY: run clean
+.PHONY: clean

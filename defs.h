@@ -7,6 +7,10 @@
 #define TRUE 1
 #define FALSE 0
 
+#define ASPECT_RATIO (16.0f / 9.0f)
+#define IMAGE_HEIGHT 432
+#define IMAGE_WIDTH (int) (IMAGE_HEIGHT * ASPECT_RATIO)
+
 enum axis {
         X_COOR,
         Y_COOR,
@@ -83,6 +87,12 @@ struct sphere {
         color surface_color;
 };
 
+struct renderer {
+        struct image *image;
+        struct camera *camera;
+        struct hittable_list *world;
+};
+
 // vec.c
 struct vec3 vec3(float x, float y, float z);
 void vec3_add(struct vec3 *dest, const struct vec3 *u, const struct vec3 *v);
@@ -133,5 +143,10 @@ int hittable_list_add(struct hittable_list *list, struct hittable *element);
 int hittable_list_remove(struct hittable_list *list, struct hittable *element);
 int hittable_list_hit(const struct hittable_list *list, const struct ray *ray,
                       float t_0, float t_1, struct hit_record *record);
+
+// renderer.c
+void renderer_init(struct renderer *renderer, void *pixels);
+void renderer_update(struct renderer *renderer);
+color compute_ray_color(struct ray *r, struct hittable_list *world);
 
 #endif // DEFS_H
