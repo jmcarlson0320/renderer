@@ -45,6 +45,11 @@ struct ray {
         struct vec3 dir;
 };
 
+struct directional_light {
+        struct vec3 dir;
+        color intensity;
+};
+
 struct hit_record {
 	struct vec3 hit_point;
 	struct vec3 normal;

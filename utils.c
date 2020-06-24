@@ -61,8 +61,8 @@ struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i
         float t = 1.0f;
         float b = -1.0f;
 
-        float u = l + (r - l) * ((float) i + 0.5f) / img->width;
-        float v = b + (t - b) * ((float) j + 0.5f) / img->height;
+        float u = l + (r - l) * ((float) i + rand_float()) / img->width;
+        float v = b + (t - b) * ((float) j + rand_float()) / img->height;
 
         //ray direction: -dW + uU + vV
         struct vec3 dir;
