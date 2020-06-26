@@ -47,10 +47,12 @@ struct hittable_list *build_world()
         struct sphere *obj2 = sphere_create(vec3(1.0f, 0.0f, -1.0f), 0.5f, vec3(0.3f, 0.9f, 0.3f));
         struct sphere *obj3 = sphere_create(vec3(-1.0f, 0.0f, -1.0f), 0.5f, vec3(0.3f, 0.3f, 0.9f));
         struct sphere *obj4 = sphere_create(vec3(0.0f, -100.5f, -1.0f), 100.0f, vec3(0.8f, 0.8f, 0.8f));
+
         hittable_list_add(world, (struct hittable *) obj1);
         hittable_list_add(world, (struct hittable *) obj2);
         hittable_list_add(world, (struct hittable *) obj3);
         hittable_list_add(world, (struct hittable *) obj4);
+
         return world;
 }
 
@@ -58,16 +60,11 @@ color evaluate_lambertian_model(struct directional_light *light, struct hit_reco
 {
         color pixel_color;
         float dot_product = vec3_dot(&hit->normal, &light->dir);
+
         dot_product = max(dot_product, 0);
-        pixel_color.e[RED] = hit->surface_color.e[RED]
-                * light->intensity.e[RED]
-                * dot_product;
-        pixel_color.e[GREEN] = hit->surface_color.e[GREEN]
-                * light->intensity.e[GREEN]
-                * dot_product;
-        pixel_color.e[BLUE] = hit->surface_color.e[BLUE]
-                * light->intensity.e[BLUE]
-                * dot_product;
+        pixel_color.e[RED] = hit->surface_color.e[RED] * light->intensity.e[RED] * dot_product;
+        pixel_color.e[GREEN] = hit->surface_color.e[GREEN] * light->intensity.e[GREEN] * dot_product;
+        pixel_color.e[BLUE] = hit->surface_color.e[BLUE] * light->intensity.e[BLUE] * dot_product; 
 
         return pixel_color;
 }

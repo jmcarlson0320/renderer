@@ -72,8 +72,7 @@ struct hittable {
 };
 
 struct vtable {
-        int (*hit)(const struct hittable *hittable, const struct ray *ray,
-                   float t_0, float t_1, struct hit_record *record);
+        int (*hit)(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 };
 
 struct hittable_list {
@@ -103,14 +102,12 @@ void vec3_normalize(struct vec3 *dest, const struct vec3 *v);
 // utils.c
 float lerp(float norm, float min, float max);
 float norm(float value, float min, float max);
-float map(float value, float srcMin, float srcMax,
-          float destMin, float destMax);
+float map(float value, float srcMin, float srcMax, float destMin, float destMax);
 int in_range_inclusive(float x, float min, float max);
 float rand_float();
 float max(float a, float b);
 void write_color(FILE *fs, color c);
-struct ray ray_to_pixel(const struct camera *cam, const struct image *img,
-                        int i, int j);
+struct ray ray_to_pixel(const struct camera *cam, const struct image *img, int i, int j);
 struct vec3 ray_at(const struct ray *ray, float t);
 
 // image.c
@@ -125,18 +122,15 @@ void camera_destroy(struct camera *cam);
 void camera_look_at(struct camera *cam, struct vec3 target);
 
 // sphere.c
-struct sphere *sphere_create(struct vec3 pos, float radius,
-                             color surface_color);
+struct sphere *sphere_create(struct vec3 pos, float radius, color surface_color);
 void sphere_destroy(struct sphere *sphere);
 
 // hittable.c
-int hittable_hit(const struct hittable *hittable, const struct ray *ray,
-                 float t_0, float t_1, struct hit_record *record);
+int hittable_hit(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 struct hittable_list *hittable_list_create();
 void hittable_list_destroy(struct hittable_list *list);
 int hittable_list_add(struct hittable_list *list, struct hittable *element);
 int hittable_list_remove(struct hittable_list *list, struct hittable *element);
-int hittable_list_hit(const struct hittable_list *list, const struct ray *ray,
-                      float t_0, float t_1, struct hit_record *record);
+int hittable_list_hit(const struct hittable_list *list, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 
 #endif // DEFS_H
