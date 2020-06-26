@@ -39,7 +39,7 @@ int main()
                         }
                 }
 
-                renderer_update(raytracer);
+//                renderer_update(raytracer);
                 SDL_UpdateTexture(texture, NULL, pixels, IMAGE_WIDTH * sizeof(int));
                 SDL_RenderClear(renderer);
                 SDL_RenderCopy(renderer, texture, NULL, NULL);
