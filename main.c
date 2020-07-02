@@ -69,10 +69,27 @@ color evaluate_lambertian_model(struct directional_light *light, struct hit_reco
         return pixel_color;
 }
 
-color compute_ray_color(struct ray *r, struct hittable_list *world)
+color compute_background_color(struct ray *r)
 {
+        color ray_color;
         color white = vec3(1.0f, 1.0f, 1.0f);
         color blue = vec3(0.5f, 0.7f, 1.0f);
+
+        struct vec3 normalized;
+        vec3_normalize(&normalized, &r->dir);
+
+        float amt = normalized.e[Y_COOR];
+        amt = norm(amt, -1.0f, 1.0f);
+
+        vec3_mult(&blue, &blue, amt);
+        vec3_mult(&white, &white, (1.0f - amt));
+        vec3_add(&ray_color, &blue, &white);
+
+        return ray_color;
+}
+
+color compute_ray_color(struct ray *r, struct hittable_list *world)
+{
         color ray_color;
 
         struct directional_light light;
@@ -84,15 +101,7 @@ color compute_ray_color(struct ray *r, struct hittable_list *world)
         if (hittable_list_hit(world, r, 0.0f, INFINITY, &hit)) {
                 ray_color = evaluate_lambertian_model(&light, &hit);
         } else {
-                struct vec3 normalized;
-                vec3_normalize(&normalized, &r->dir);
-
-                float amt = normalized.e[Y_COOR];
-                amt = norm(amt, -1.0f, 1.0f);
-
-                vec3_mult(&blue, &blue, amt);
-                vec3_mult(&white, &white, (1.0f - amt));
-                vec3_add(&ray_color, &blue, &white);
+                ray_color = compute_background_color(r);
         }
 
         return ray_color;
