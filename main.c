@@ -92,13 +92,12 @@ color compute_ray_color(struct ray *r, struct hittable_list *world)
 {
         color ray_color;
 
-        struct directional_light light;
-        light.dir = vec3(1.0f, 1.0f, 1.0f);
-        vec3_normalize(&light.dir, &light.dir);
-        light.intensity = vec3(1.0f, 1.0f, 1.0f);
-
         struct hit_record hit;
         if (hittable_list_hit(world, r, 0.0f, INFINITY, &hit)) {
+                struct directional_light light;
+                light.dir = vec3(1.0f, 1.0f, 1.0f);
+                vec3_normalize(&light.dir, &light.dir);
+                light.intensity = vec3(1.0f, 1.0f, 1.0f);
                 ray_color = evaluate_lambertian_model(&light, &hit);
         } else {
                 ray_color = compute_background_color(r);

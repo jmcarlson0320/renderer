@@ -75,6 +75,8 @@ struct vtable {
         int (*hit)(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 };
 
+// TODO
+// make hittable_list inherit from hittable
 struct hittable_list {
         struct hittable *head;
         int num_elements;
