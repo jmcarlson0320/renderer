@@ -8,54 +8,54 @@
 #define FALSE 0
 
 enum axis {
-        X_COOR,
-        Y_COOR,
-        Z_COOR
+    X_COOR,
+    Y_COOR,
+    Z_COOR
 };
 
 enum color_comp {
-        RED,
-        GREEN,
-        BLUE
+    RED,
+    GREEN,
+    BLUE
 };
 
 struct vec3 {
-        float e[3];
+    float e[3];
 };
 
 // aliases
 typedef struct vec3 color;
 
 struct image {
-        int width;
-        int height;
-        color *pixels;
+    int width;
+    int height;
+    color *pixels;
 };
 
 struct camera {
-        struct vec3 u;
-        struct vec3 v;
-        struct vec3 w;
-        struct vec3 pos;
-        float focal_length;
+    struct vec3 u;
+    struct vec3 v;
+    struct vec3 w;
+    struct vec3 pos;
+    float focal_length;
 };
 
 struct ray {
-        struct vec3 origin;
-        struct vec3 dir;
+    struct vec3 origin;
+    struct vec3 dir;
 };
 
 struct directional_light {
-        struct vec3 dir;
-        color intensity;
+    struct vec3 dir;
+    color intensity;
 };
 
 struct hit_record {
-	struct vec3 hit_point;
-	struct vec3 normal;
-        color surface_color;
-	float t;
-        int front_face;
+    struct vec3 hit_point;
+    struct vec3 normal;
+    color surface_color;
+    float t;
+    int front_face;
 };
 
 // this is an implementation of polymorphism
@@ -66,27 +66,27 @@ struct hit_record {
 // a pointer to the derived class's static vtable that has pointers to the
 // derived class's implementation.
 struct hittable {
-        const struct vtable *vtable;
-        int id;
-        struct hittable *next;
+    const struct vtable *vtable;
+    int id;
+    struct hittable *next;
 };
 
 struct vtable {
-        int (*hit)(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
+    int (*hit)(const struct hittable *hittable, const struct ray *ray, float t_0, float t_1, struct hit_record *record);
 };
 
 // TODO
 // make hittable_list inherit from hittable
 struct hittable_list {
-        struct hittable *head;
-        int num_elements;
+    struct hittable *head;
+    int num_elements;
 };
 
 struct sphere {
-        struct hittable hittable;
-        struct vec3 origin;
-        float radius;
-        color surface_color;
+    struct hittable hittable;
+    struct vec3 origin;
+    float radius;
+    color surface_color;
 };
 
 // vec.c
